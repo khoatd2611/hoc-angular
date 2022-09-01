@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sample9</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+</head>
+<body ng-app="myApp">
+    <h1>AngularJS Routing</h1>
+    <p><a href="#/!">Main</a></p>
+    <a href="#/!product">Product</a>
+    <a href="#/!contect">Contact</a>
+    <a href="#/!partner">Partner</a>
+    
+    <div ng-view></div>
+</body>
+<script>
+    var app = angular.module('myApp',["ngRoute"]);
+
+    app.config(function($routeProvider){
+        $routeProvider
+        .when("/", {
+            templateUrl: "sample9.1.html",
+            controller : 'HomeController'
+        })
+        .when("/product",{
+            templateUrl: "sample9.2.html",
+        })
+        .when("/contact",{
+            templateUrl: "sample9.3.html",
+            controller : 'ContactController'
+        })
+        .when("/partner", {
+            templateUrl: "sample9.4.html", 
+            controller : 'PartnerController'
+        })
+    });
+
+    app.controller('HomeController', function($scope){
+        $scope.persons = [{
+            name: 'Nguyen Van Phuc', age: 25 
+        },
+        {
+            name: 'Tran Van Hai', age: 60
+        },
+        {
+            name: 'Nguyen Thi Thuy', age: 35
+        },
+        {
+            name: 'Doan Van Hao', age: 65
+        },
+        {
+            name: 'La Thi Van', age: 75
+        }];
+    });
+
+    app.controller('ContactController', function($scope){
+        $scope.contactPerson = "Ha Tran CEO";
+    });
+</script>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample1.1</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+</head>
+<body ng-app="myApp">
+    <div ng-controller="myCtrl">
+        <p>Enter your name: <input type="text" ng-model="name"></p>
+        <p><button ng-click="name = 'Nguyen van B'">Set value for name</button></p>
+        <p><button ng-click="nameFunc()">Set value for name by Func</button></p>
+        <p><button ng-dblclick="nameFunc1()">Set value for name by Func by double click</button></p>
+        <p>Hello {{name}}</p>
+    </div>
+</body>
+<script>
+    angular.module('myApp', [])
+    .controller('myCtrl', ['$scope', function($scope){
+        $scope.nameFunc = function() {
+            $scope.name = 'Nguyen van C';
+        };
+
+        $scope.nameFunc1 = function() {
+            $scope.name = 'Nguyen Van D';
+        };
+    }]);
+</script>
+</html>

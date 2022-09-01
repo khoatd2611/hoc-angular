@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample 3</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+</head>
+<body ng-app="myApp">
+    <div ng-controller="myCtrl">
+        <p>List of user</p>
+        <ol>
+            <li ng-repeat="x in names">
+                {{x.fullname + ',' + x.email}}
+            </li>
+        </ol>
+    </div>
+</body>
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', function($scope){
+        $scope.names = [
+            {fullname:'Nguyen Van A', email: 'anguyen.it@aptech.edu.vn'},
+            {fullname:'Ha Van B', email: 'bha.it@aptech.edu.vn'},
+            {fullname:'Trinh thi C', email: 'ctrinh.it@aptech.edu.vn'},
+            {fullname:'Hoang Van D', email: 'dhoang.it@aptech.edu.vn'},
+        ];
+    });
+</script>
+</html>

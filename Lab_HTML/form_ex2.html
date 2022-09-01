@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+  .wrapper{
+    width: 100%;
+  }
+  .container{
+    margin: auto;
+    width: 620px;
+  }
+
+  .row{
+    width: 100%;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: bisque;
+    float: left;
+  }
+
+  .col-12{
+    width: 100%;
+    float: left;
+  }
+
+  .col-3{
+    width: 25%;
+    float: left;
+  }
+
+  .col-9{
+    width: 75%;
+    float: left;
+  }
+
+  .text-center{
+    text-align: center;
+    display: table;
+    vertical-align: middle;
+  }
+
+  .form-lbl{
+    display: table;
+    vertical-align: middle;
+    line-height: 30px;
+    padding:5px;
+    height: 30px;
+  }
+
+  .title{
+    font-size: large;
+    font-weight: bold;
+  }
+
+  input[type="text"]{
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    margin: 10px;
+    width: 80%;
+  }
+
+  input[type="button"]{
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    background-color: beige;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .errInput{
+    background-color: rgb(226, 170, 48) !important;
+    border: 1px solid red !important;
+    color: white;
+  }
+
+  req{
+    float: right;
+    color:red;
+  }
+
+  .result-area{
+    width: 100%;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    float: left;
+  }
+
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th{
+    background-color: rgb(206, 209, 32);
+  }
+
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+
+  .removeItem, .updateItem{
+    cursor: pointer;
+  }
+</style>
+<script>
+  var userArr = [];
+  function validateForm() {
+    let fname = document.getElementById("fName").value;
+    let femail = document.getElementById("fEmail").value;
+    let fphone = document.getElementById("fPhone").value;
+    let errorMessage = "";
+    let flagError = false;
+    let htmlData = "";
+    if (fname == "") {
+      errorMessage = "Tên không được để trống\n\r";
+      document.getElementById("fName").classList.add("errInput");
+      flagError = true;
+    }else{
+      htmlData += "<td>" + fname + "</td>"; 
+    }
+
+    if (femail == "") {
+      errorMessage = errorMessage + "Email không được để trống\n\r";
+      document.getElementById("fEmail").classList.add("errInput");
+      flagError = true;
+    }else{
+      if(validateEmail(femail) == false){
+        errorMessage = errorMessage + "Email không hợp lệ\n\r";
+        document.getElementById("fEmail").classList.add("errInput");
+        flagError = true;
+      }else{
+        htmlData += "<td>" + femail + "</td>"; 
+      }
+    }
+
+    if (fphone == "") {
+      errorMessage = errorMessage + "Số điện thoại không được để trống\n\r";
+      document.getElementById("fPhone").classList.add("errInput");
+      flagError = true;
+    }else{
+      if(validatePhone(fphone) == false){
+        errorMessage = errorMessage + "Số điện thoại không hợp lệ\n\r";
+        document.getElementById("fPhone").classList.add("errInput");
+        flagError = true;
+      }else{
+        htmlData += "<td>" + fphone + "</td>"; 
+      }
+    }
+
+    if(flagError == true){
+      alert(errorMessage);
+    }else{
+      let user = {
+        name:fname, 
+        email:femail, 
+        phone:fphone
+      };
+
+      if(checkUser(user) == false){
+        alert("Toàn bộ thông tin là hợp lệ.");
+        document.getElementById("resultData").innerHTML +=
+        "<tr>" + htmlData + "<td><img src='edit.png' onClick='updateItem()' class='updateItem' /></td><td><img src='remove.png' onClick='deleteItem()' class='removeItem' /></td></tr>";
+        document.getElementById("resultData").classList.remove("noData");
+      }else{
+        alert("Email hoặc Số điện thoại đã tồn tại trong danh sách.");
+      }
+    }
+  }
+
+  function updateItem(){
+    let text = "Bạn có chắc chắn muốn sửa nội dung này.";
+    if (confirm(text) == true) {
+      console.log("Đã sửa...");
+    } else {
+      console.log("Không sửa");
+    }
+  }
+
+  function deleteItem(){
+    let text = "Bạn có chắc chắn muốn xóa nội dung này.";
+    if (confirm(text) == true) {
+      console.log("Đã xóa...");
+    } else {
+      console.log("Không xóa");
+    }
+  }
+
+  function checkUser(userData){
+    let flagError = false;
+    if(userArr.length > 0){
+      for (let i = 0; i < userArr.length; i++) {
+        if(userArr[i].email == userData.email){
+          flagError = true;
+          return flagError;
+        }
+
+        if(userArr[i].phone == userData.phone){
+          flagError = true;
+          return flagError;
+        }
+      }
+    }else{
+      userArr.push(userData);
+      return flagError;
+    }
+    
+    if(flagError == false){
+      userArr.push(userData);
+    }
+    return flagError;
+  }
+
+  function validateField(element) {
+    let value = element.value;
+    let id = element.id;
+    if (value == "") {
+      element.classList.add("errInput");
+    }else{
+      switch (id) {
+        case "fEmail":
+          validateEmail(value) == false ? element.classList.add("errInput") :  element.classList.remove("errInput");
+          break;
+        case "fPhone":
+          validatePhone(value) == false ? element.classList.add("errInput") :  element.classList.remove("errInput");
+          break;
+        default:
+          element.classList.remove("errInput");
+      }
+    }
+  }
+
+  function validateEmail(mailvalue) 
+  {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mailvalue))
+    {
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  function validatePhone(phoneNumber){
+    if(/(84|0[3|5|7|8|9])+([0-9]{8})\b/.test(phoneNumber)){
+      return true;
+    }else{
+      return false;
+    }
+  }
+</script>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="container">
+        <div class="row">
+          <form name="myForm" action="" method="post">
+            <div class="col-12 text-center title"><label>Đăng ký thông tin thành viên</label></div>
+            <div class="col-3"><label class="form-lbl">Họ và tên<req>*</req></label></div>
+            <div class="col-9"><input type="text" id="fName" onfocusout="validateField(this)" name="fname" /></div>
+            <div class="col-3"><label class="form-lbl">Email<req>*</req></label></div>
+            <div class="col-9"><input type="text" id="fEmail" onfocusout="validateField(this)" name="femail" /></div>
+            <div class="col-3"><label class="form-lbl">Số điện thoại<req>*</req></label></div>
+            <div class="col-9"><input type="text" id="fPhone" onfocusout="validateField(this)" name="fphone" /></div>
+            <div class="col-12"><input type="button" id="btnSend" onClick="validateForm()" value="Gửi thông tin"></div>
+          </form>
+        </div>
+        <div class="result-area">
+          <table id="resultData" class="noData">
+            <tr>
+              <th>Họ và tên</th>
+              <th>Email</th>
+              <th>Số điện thoại</th>
+              <th>Sửa</th>
+              <th>Xóa</th>
+            </tr>
+          </table>
+        </div>
+    </div>
+  </div>
+</body>
+</html>

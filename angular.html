@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        .box {
+            height: 500px;
+            width: 400px;
+            background: rgb(201, 180, 180);
+            font-size: 72px;
+        }
+    </style>
+</head>
+<body>
+    <main ng-app="ap1" ng-controller="ap1-ctrl">
+        Nhập số thứ nhất: <input type="number" name="" id="" ng-model="num1"><br>
+        Nhập số thứ hai: <input type="number" name="" id="" ng-model="num2">
+        <h1>Tổng hai số: {{num1 + num2}}</h1>
+
+        <label for="hidehi">Reveal</label><input type="checkbox" id="hidehi" ng-model="show">
+        <div ng-show="show" class="box">Chi cứt tadaaaa</div>
+    </main>
+</body>
+
+<script>
+    var app1 = angular.module("ap1",[]);
+    app1.controller('ap1-ctrl',function($scope){
+        
+    })
+</script>
+</html>

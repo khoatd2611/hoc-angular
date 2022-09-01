@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<style>
+  .wrapper{
+    width: 100%;
+  }
+  .container{
+    margin: auto;
+    width: 620px;
+  }
+
+  .row{
+    width: 100%;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: bisque;
+    float: left;
+  }
+
+  .col-12{
+    width: 100%;
+    float: left;
+  }
+
+  .col-3{
+    width: 25%;
+    float: left;
+  }
+
+  .col-9{
+    width: 75%;
+    float: left;
+  }
+
+  .text-center{
+    text-align: center;
+    display: table;
+    vertical-align: middle;
+  }
+
+  .form-lbl{
+    display: table;
+    vertical-align: middle;
+    line-height: 30px;
+    padding:5px;
+    height: 30px;
+  }
+
+  .title{
+    font-size: large;
+    font-weight: bold;
+  }
+
+  input[type="text"]{
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    margin: 10px;
+    width: 80%;
+  }
+
+  input[type="button"]{
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    background-color: beige;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .errInput{
+    background-color: rgb(226, 170, 48) !important;
+    border: 1px solid red !important;
+    color: white;
+  }
+
+  req{
+    float: right;
+    color:red;
+  }
+
+  .result-area{
+    width: 100%;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    float: left;
+  }
+
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th{
+    background-color: rgb(206, 209, 32);
+  }
+
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+
+  .removeItem, .updateItem{
+    cursor: pointer;
+  }
+
+  .search-input {
+        width: 100%;
+        box-sizing: border-box;
+        border: 2px solid #ccc;
+        border-radius: 4px;
+        background-color: white;
+        background-image: url('searchicon.png');
+        background-position: 10px 10px; 
+        background-repeat: no-repeat;
+        padding: 12px 20px 12px 40px !important;
+        margin: 10px 10px 10px 0 !important;
+    }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.8.3/angular.min.js"></script>
+</head>
+<body ng-app="myApp">
+  <div class="wrapper" ng-controller="myCtrl">
+    <div class="container">
+        <div class="row">
+          <form name="myForm" action="" method="post">
+            <div class="col-12 text-center title"><label>Đăng ký thông tin thành viên</label></div>
+            <div class="col-3"><label class="form-lbl">Họ và tên<req>*</req></label></div>
+            <div class="col-9"><input type="text" id="fName" name="fname" nq-model="name"/></div>
+            <div class="col-3"><label class="form-lbl">Email<req>*</req></label></div>
+            <div class="col-9"><input type="text" id="fEmail" name="femail" ng-model="email" ng-mouseover="onMouseOver()"/></div>
+            <div class="col-3"><label class="form-lbl">Số điện thoại<req>*</req></label></div>
+            <div class="col-9"><input type="text" id="fPhone" name="fphone" ng-model="phone" ng-mouseover="onMouseOver()"/></div>
+            <div class="col-12"><input type="button" id="btnSend" value="Gửi thông tin" ng-click="validate()"></div>
+          </form>
+        </div>
+    </div>
+  </div>
+</body>
+<script>
+    var app = angular.module('myApp', []);
+    app.controller('myCtrl', ['$scope', function($scope){
+        $scope.onMouseOver = function(){
+          formValidate($scope.email,$scope.phone);
+        }
+
+        $scope.validate = function(){
+          formValidate($scope.email,$scope.phone);
+        }
+    }]);
+
+    function formValidate(mailValue, phoneValue){
+      mailCList = document.getElementById('fEmail').classList;
+      phoneCList = document.getElementById('fPhone').classList;
+      CheckMail = validateEmail(mailValue);
+      CheckPhone = validatePhone(phoneValue);
+      if(!CheckMail){
+        mailCList.add('errInput');
+      }else{
+        mailCList.remove('errInput');
+      }
+      if(!CheckPhone){
+        phoneCList.add('errInput');
+      }else{
+        phoneCList.remove('errInput');
+      }
+    }
+    function validateEmail(mailvalue) 
+    {
+      if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(mailvalue))
+      {
+        return true;
+      }else{
+        return false;
+      }
+    }
+
+  function validatePhone(phoneNumber)
+  {
+    if(/(84|0[3|5|7|8|9])+([0-9]{8})\b/.test(phoneNumber)){
+      return true;
+    }else{
+      return false;
+    }
+  }
+</script>
+</html>
